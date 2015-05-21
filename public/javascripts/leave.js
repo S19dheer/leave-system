@@ -1,6 +1,6 @@
  /*var datepicker1 = document.getElementById('datepicker1');
-               var datepicker2 = document.getElementById('datepicker2');
-              */
+                   var datepicker2 = document.getElementById('datepicker2');
+                  */
 
  // datepicker1.datepicker();
  // datepicker2.datepicker();
@@ -27,7 +27,6 @@
              excludeLeaveAndWeekEnd(sdate, edate);
          }
      });
-
 
      $("#userlogin").click(function() {
          var html = '<form action="/login" method="post">' + '<div><label>UserName:</label><input type="text" name="username"/><br/></div>' + '<div><label>Password:</label><input type="password" name="password"/><br/></div>' + '<div><input type="submit" value="submit"/></div></form>';
@@ -72,7 +71,7 @@
 
          var html = "";
          for (var i = 0; i < workDay.length; i++) {
-             html += '<div style="background: #4679BD;margin: 20px;">' + new Date(workDay[i]) + '<button id="applyleave" style="margin-left: 200px;">Apply</button></div>';
+             html += '<div data-index="[' + i + ']" style="background: #4679BD;margin: 20px;">' + new Date(workDay[i]) + '<button onclick="clickApply();" data-date="'+ new Date(workDay[i]) +'" data-apply="true" style="margin-left: 200px;">Apply</button></div>';
          }
 
          $('#dateshow').html(html);
@@ -80,3 +79,23 @@
      }
 
  });
+
+ function clickApply() {
+    debugger;
+    var leaveDate = {
+        date:event.target.getAttribute("data-date"),
+        leave:event.target.getAttribute("data-apply")
+    };
+     $.ajax({
+         url: 'http://localhost:3000/apply',
+         data: JSON.stringify(leaveDate),
+         type: 'POST',
+         contentType: 'application/json',
+         success: function(data) {
+             console.log(data);
+         },
+         error: function(err) {
+             console.log("err", err);
+         }
+     });
+ }

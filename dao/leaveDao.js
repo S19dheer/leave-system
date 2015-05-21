@@ -10,14 +10,19 @@ exports.authenticatLeave = function(username, leaveCollection, callback) {
     });
 }
 
-exports.applyLeave = function(leavedate, callback) {
-    db.collection("").insert(leavedate, function(error, result) {
+exports.applyLeave = function(leavedate, leaveCollection, callback) {
+    var userLeaveDate = {
+        "username": mongo.helper.toObjectID(leavedate.user.username),
+        "date": leavedate.leavedata.date,
+        "leave": leavedate.leavedata.leave
+    };
+    db.collection(leaveCollection).insert(userLeaveDate, function(error, result) {
         callback(error, result);
         db.close();
     });
 }
 
-exports.cancilLeave = function(leavedate, callback) {
+exports.cancilLeave = function(leavedate, leaveCollection, callback) {
     db.collection("").insert(leavedate, function(error, result) {
         callback(error, result);
         db.close();

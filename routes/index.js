@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var leaveDaoController = require('../daoController/leaveDaoController');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,5 +10,7 @@ router.get('/', function(req, res, next) {
 router.get('/user', function(req, res, next) {
     res.render('user');
 });
+
+router.post('/apply', leaveDaoController.userApply);
 
 module.exports = router;

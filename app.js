@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var session = require('express-session');
 var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./routes/index');
@@ -26,7 +27,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 //passport local login
-
+app.use(session({secret:'a4f8171f-c893-4447-8ed2', cookies:{maxAge: 2628000000}}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -59,6 +60,12 @@ app.get('/failurelogin', function(req, res) {
 });
 
 // authentication
+//logout form app
+app.get('/logout', function(req, res){
+    req.logout();
+    req.session.destroy(function(err){console.log("err", err);})
+    res.redirect('/');
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

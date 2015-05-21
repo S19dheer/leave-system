@@ -23,8 +23,17 @@ exports.userLogin = function(username, password, done) {
     });
 }
 
-exports.userLogout = function(request, response) {
-
+exports.userApply = function(request, response) {
+    var dateForLeave = {
+        leavedata: request.body,
+        user: request.user
+    };
+    leaveDao.applyLeave(dateForLeave, leaveCollection, function(error, result) {
+        response.json({
+            "result": result
+        });
+        response.end();
+    });
 }
 
 exports.insertDate = function(request, response) {
