@@ -36,6 +36,15 @@ exports.userApply = function(request, response) {
     });
 }
 
+exports.showApplyDate = function(request, response) {
+    var user = request.user;
+    leaveDao.showLeave(user, leaveCollection, function(error, result) {
+        response.json({
+            "result":result
+        });
+    });
+}
+
 exports.insertDate = function(request, response) {
     leaveDao.applyLeave(leaveDate, leaveCollection, function(error, result) {
         response.json({

@@ -13,4 +13,6 @@ router.get('/user', function(req, res, next) {
 
 router.post('/apply', leaveDaoController.userApply);
 
+router.get('/showdate', leaveDaoController.showApplyDate);
+
 module.exports = router;

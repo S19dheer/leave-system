@@ -1,6 +1,6 @@
  /*var datepicker1 = document.getElementById('datepicker1');
-                   var datepicker2 = document.getElementById('datepicker2');
-                  */
+                      var datepicker2 = document.getElementById('datepicker2');
+                     */
 
  // datepicker1.datepicker();
  // datepicker2.datepicker();
@@ -26,6 +26,24 @@
              var edate = $("#datepicker2").datepicker('getDate');
              excludeLeaveAndWeekEnd(sdate, edate);
          }
+     });
+
+     $("#showApplydate").click(function() {
+         $.ajax({
+             url: '/showdate',
+             type: 'GET',
+             success: function(data) {
+                 console.log(data);
+                 var html = "";
+                 for (var i = 0; i < data.result.length; i++) {
+                     html += '<div data-index="[' + i + ']" style="background: #4679BD;margin: 20px;">' + new Date(data.result[0].leaveData.date) + '<button onclick="clickCancil();" data-date="' + new Date(data.result[0].leaveData.date) + '" data-apply="' + data.result[0].leaveData.leave + '" style="margin-left: 200px;">Cancil</button></div>';
+                 }
+                 $('#userdate').html(html);
+             },
+             error: function(err) {
+                 console.log("err", err);
+             }
+         });
      });
 
      $("#userlogin").click(function() {
@@ -71,7 +89,7 @@
 
          var html = "";
          for (var i = 0; i < workDay.length; i++) {
-             html += '<div data-index="[' + i + ']" style="background: #4679BD;margin: 20px;">' + new Date(workDay[i]) + '<button onclick="clickApply();" data-date="'+ new Date(workDay[i]) +'" data-apply="true" style="margin-left: 200px;">Apply</button></div>';
+             html += '<div data-index="[' + i + ']" style="background: #4679BD;margin: 20px;">' + new Date(workDay[i]) + '<button onclick="clickApply();" data-date="' + new Date(workDay[i]) + '" data-apply="true" style="margin-left: 200px;">Apply</button></div>';
          }
 
          $('#dateshow').html(html);
@@ -81,11 +99,11 @@
  });
 
  function clickApply() {
-    debugger;
-    var leaveDate = {
-        date:event.target.getAttribute("data-date"),
-        leave:event.target.getAttribute("data-apply")
-    };
+     debugger;
+     var leaveDate = {
+         date: event.target.getAttribute("data-date"),
+         leave: event.target.getAttribute("data-apply")
+     };
      $.ajax({
          url: 'http://localhost:3000/apply',
          data: JSON.stringify(leaveDate),

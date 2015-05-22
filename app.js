@@ -63,7 +63,7 @@ app.get('/failurelogin', function(req, res) {
 //logout form app
 app.get('/logout', function(req, res){
     req.logout();
-    req.session.destroy(function(err){console.log("err", err);})
+    req.session.destroy(function(err){console.log("err", err);});
     res.redirect('/');
 });
 // catch 404 and forward to error handler
